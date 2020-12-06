@@ -4,7 +4,7 @@ let bot: TelegramBot|undefined = undefined
 let savedChatId: number|undefined = undefined
 
 export const initBot = async (telegramToken: string, chatId: number|undefined) => {
-  bot = new TelegramBot(telegramToken, {polling: true})
+  bot = new TelegramBot(telegramToken)
 
   if (chatId != undefined) {
     savedChatId = chatId
