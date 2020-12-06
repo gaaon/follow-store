@@ -23,6 +23,7 @@ async function check(smartStorePageUrl: string, targetOptionName: string) {
   if (targetOptionComb.stockQuantity > 0) {
     message = `stock found!!!! for ${targetOptionName}`
   } else {
+    console.log(`no stock for ${targetOptionName}`)
     // message = `no stock for ${targetOptionName}`
   }
 
