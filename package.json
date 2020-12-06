@@ -1,0 +1,33 @@
+{
+  "name": "follow-store",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gaaon/follow-store.git"
+  },
+  "author": "Taewoo Kim <xodn4195@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gaaon/follow-store/issues"
+  },
+  "homepage": "https://github.com/gaaon/follow-store#readme",
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/node": "^14.14.10",
+    "@types/node-telegram-bot-api": "^0.50.4",
+    "ts-node": "^9.1.0",
+    "typescript": "^4.1.2"
+  },
+  "dependencies": {
+    "axios": "^0.21.0",
+    "dotenv": "^8.2.0",
+    "moment": "^2.29.1",
+    "node-telegram-bot-api": "^0.50.0"
+  }
+}
