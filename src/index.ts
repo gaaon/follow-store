@@ -7,6 +7,8 @@ import { initBot, sendMessage } from './message'
 
 dotenv.config()
 
+let count = 0
+
 async function check(smartStorePageUrl: string, targetOptionName: string) {
   const page = await loadSmartStorePage(smartStorePageUrl)
   const preloadedState: any = extractPreloadedStateFromPage(page)
@@ -26,6 +28,10 @@ async function check(smartStorePageUrl: string, targetOptionName: string) {
 
   if (message) {
     await sendMessage(message)
+  } else {
+    if (count % 100 === 0) {
+      await sendMessage(`check counts ${count}`)
+    }
   }
 }
 
@@ -52,11 +58,13 @@ async function main() {
   
   initBot(telegramToken, parseInt(telegramChatId))
 
+  await sendMessage('start follow bot')
+
   while(true) {
     try {
       await check(smartStorePageUrl, targetOptionName)
     } catch (e) {
-      sendMessage(e.message)
+      await sendMessage(e.message)
       process.exit(1)
     }
 
