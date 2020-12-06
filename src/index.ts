@@ -9,7 +9,7 @@ dotenv.config()
 
 let count = 0
 
-async function check(smartStorePageUrl: string, targetOptionName: string) {
+async function check(smartStorePageUrl: string, smartStorePageTitle: string, targetOptionName: string) {
   const page = await loadSmartStorePage(smartStorePageUrl)
   const preloadedState: any = extractPreloadedStateFromPage(page)
   const optionCombinations = extractOptionCombinationsFromPreloadedState(preloadedState)
@@ -21,7 +21,7 @@ async function check(smartStorePageUrl: string, targetOptionName: string) {
 
   let message: string|undefined
   if (targetOptionComb.stockQuantity > 0) {
-    message = `stock found!!!! for ${targetOptionName}`
+    message = `${smartStorePageTitle}\nstock found!!!! for ${targetOptionName}`
   } else {
     console.log(`no stock for ${targetOptionName}`)
     // message = `no stock for ${targetOptionName}`
@@ -31,7 +31,7 @@ async function check(smartStorePageUrl: string, targetOptionName: string) {
     await sendMessage(message)
   } else {
     if (count % 100 === 0) {
-      await sendMessage(`check counts ${count}`)
+      await sendMessage(`${smartStorePageTitle}\ncheck counts ${count}`)
     }
   }
 
@@ -39,17 +39,22 @@ async function check(smartStorePageUrl: string, targetOptionName: string) {
 }
 
 async function main() {
-  const smartStorePageUrl: string|undefined = process.env['SMART_STORE_PAGE']
+  const smartStorePageUrl = process.env['SMART_STORE_PAGE']
   if (!smartStorePageUrl) {
     throw new Error('smart store page should be set')
   }
 
-  const targetOptionName: string|undefined = process.env['TARGET_OPTION_NAME']
+  const smartStorePageTitle = process.env['SMART_STORE_TITLE']
+  if (!smartStorePageTitle) {
+    throw new Error('smart store title should be set')
+  }
+
+  const targetOptionName = process.env['TARGET_OPTION_NAME']
   if (!targetOptionName) {
     throw new Error('target option name should be set')
   }
   
-  const telegramToken: string|undefined = process.env['TELEGRAM_TOKEN']
+  const telegramToken = process.env['TELEGRAM_TOKEN']
   if (!telegramToken) {
     throw new Error('telegram token should be set')
   }
@@ -65,7 +70,7 @@ async function main() {
 
   while(true) {
     try {
-      await check(smartStorePageUrl, targetOptionName)
+      await check(smartStorePageUrl, smartStorePageTitle, targetOptionName)
     } catch (e) {
       await sendMessage(e.message)
       process.exit(1)
