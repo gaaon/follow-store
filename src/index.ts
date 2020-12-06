@@ -17,14 +17,16 @@ async function check(smartStorePageUrl: string, targetOptionName: string) {
     throw new Error('target option comb cannot be empty')
   }
 
-  let message: string
+  let message: string|undefined
   if (targetOptionComb.stockQuantity > 0) {
     message = `stock found!!!! for ${targetOptionName}`
   } else {
-    message = `no stock for ${targetOptionName}`
+    // message = `no stock for ${targetOptionName}`
   }
 
-  await sendMessage(message)
+  if (message) {
+    await sendMessage(message)
+  }
 }
 
 async function main() {
@@ -51,7 +53,12 @@ async function main() {
   initBot(telegramToken, parseInt(telegramChatId))
 
   while(true) {
-    await check(smartStorePageUrl, targetOptionName)
+    try {
+      await check(smartStorePageUrl, targetOptionName)
+    } catch (e) {
+      sendMessage(e.message)
+      process.exit(1)
+    }
 
     const duration = (Math.floor(Math.random() * 50) + 20) * 1000
     await new Promise((resolve) => {
