@@ -33,6 +33,8 @@ async function check(smartStorePageUrl: string, targetOptionName: string) {
       await sendMessage(`check counts ${count}`)
     }
   }
+
+  count++
 }
 
 async function main() {
